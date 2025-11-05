@@ -1,0 +1,19 @@
+name: msc-ids
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - numpy
+  - pandas
+  - scikit-learn
+  - xgboost
+  - joblib
+  - jupyterlab
+  - pytorch
+  - matplotlib
+  - shap
+  - lime
+  - pip:
+    - adversarial-robustness-toolbox

@@ -1,6 +1,6 @@
-# MSc Dissertation — Robust & Explainable ML-IDS
-Author: Damian Bilawal
-University: Wrexham Glyndwr University — MSc Computing
+# MSc Dissertation - Robust & Explainable ML-IDS
+Author: Tuan Bilawal
+University: Wrexham Glyndwr University - MSc Computing
 Title: Robust and Explainable Machine-Learning-Based Intrusion Detection Systems (IDS) for Enterprise Networks
 
 Purpose: Repo for reproducible experiments (UNSW-NB15 prototyping, CICIDS2017 final).

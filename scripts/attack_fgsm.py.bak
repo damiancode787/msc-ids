@@ -35,7 +35,7 @@ warnings.filterwarnings("ignore")
 # Simple MLP surrogate
 # --------------------
 class SimpleMLP(nn.Module):
-    def __init__(self, input_dim, hidden=32):
+    def __init__(self, input_dim, hidden=128):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(input_dim, hidden),
@@ -72,7 +72,7 @@ def compute_metrics(y_true, y_pred, y_score):
 # Main
 # --------------------
 def run(seed, model_path="models/xgb_seed42.joblib", data_path="data/processed/cicids2017_clean.parquet",
-        subsample_frac=0.05, attack_type="fgsm", eps=0.1, epochs=5, batch_size=128):
+        subsample_frac=0.05, attack_type="fgsm", eps=0.1, epochs=10, batch_size=512):
     np.random.seed(seed)
     torch.manual_seed(seed)
 
@@ -119,7 +119,7 @@ def run(seed, model_path="models/xgb_seed42.joblib", data_path="data/processed/c
     # Train surrogate (PyTorch MLP)
     # ---------------
     input_dim = X_train_s.shape[1]
-    surrogate = SimpleMLP(input_dim, hidden=32)
+    surrogate = SimpleMLP(input_dim, hidden=128)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     surrogate.to(device)
 

@@ -15,5 +15,6 @@ dependencies:
   - matplotlib
   - shap
   - lime
+  - pyarrow
   - pip:
     - adversarial-robustness-toolbox

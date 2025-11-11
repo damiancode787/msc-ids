@@ -94,9 +94,32 @@ def run(seed, model_path="models/xgb_seed42.joblib", data_path="data/processed/c
         df = df.sample(frac=subsample_frac, random_state=seed).reset_index(drop=True)
         print(f"Subsampled to {len(df)} rows (frac={subsample_frac})")
 
-    label_col = "Label"
-    X = df.drop(columns=[label_col])
-    y = df[label_col].astype(int).values
+# --- ALIGN FEATURES TO SAVED XGBOOST MODEL (robust) ---
+label_col = "Label"
+
+# make sure columns are sanitized
+df.columns = [c.strip() for c in df.columns]
+
+if label_col not in df.columns:
+    raise KeyError(f"Required label column '{label_col}' not found. Found columns: {df.columns.tolist()[:10]} ...")
+
+# list of feature names model expects
+model_feature_names = list(xgb_model.get_booster().feature_names)
+
+# If any model features are missing, add as zeros
+missing_model_cols = [c for c in model_feature_names if c not in df.columns]
+if missing_model_cols:
+    print("WARNING: adding missing model columns as zeros:", missing_model_cols)
+    for c in missing_model_cols:
+        df[c] = 0.0
+
+# Now select features in the exact order expected by the model
+X = df[model_feature_names]
+y = df[label_col].astype(int).values
+
+print(f"Aligned features: model expects {len(model_feature_names)}, data using {X.shape[1]}")
+# --- END ALIGNMENT PATCH ---
+
 
     # Drop constant columns if any
     nunique = X.nunique()
